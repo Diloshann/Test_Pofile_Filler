@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Test Accounts - Dilo's Testing Platform</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="accounts.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <img src="icons/icon48.png" alt="" width="44" height="44" class="logo">
+      <div class="titles">
+        <p class="product muted">Dilo's Testing Platform</p>
+        <h1>Manage Test Accounts</h1>
+      </div>
+      <button id="addBtn" class="btn primary" type="button">Add New User</button>
+    </header>
+
+    <p class="notice">Profiles are saved only in this browser. Chrome does not encrypt local storage automatically, so store test data only, never real passwords.</p>
+
+    <div class="toolbar">
+      <label class="visually-hidden" for="searchInput">Search profiles</label>
+      <input id="searchInput" type="search" placeholder="Search by profile name, full name, username, NIC, email or phone" autocomplete="off" spellcheck="false">
+      <span id="countLabel" class="muted"></span>
+    </div>
+
+    <section id="grid" class="grid" aria-label="Saved profiles"></section>
+    <div id="emptyState" class="empty" hidden>
+      <h2 id="emptyTitle">No test accounts yet</h2>
+      <p id="emptyText" class="muted">Add a profile once, then fill any login or signup form with one click.</p>
+      <button id="emptyAddBtn" class="btn primary" type="button">Add New User</button>
+    </div>
+  </div>
+
+  <dialog id="profileDlg" aria-labelledby="dlgTitle">
+    <form id="profileForm" novalidate>
+      <header class="dlg-head">
+        <h2 id="dlgTitle">Add New User</h2>
+        <button id="closeBtn" class="icon-btn" type="button" aria-label="Close">&times;</button>
+      </header>
+
+      <div id="formError" class="form-error" role="alert" hidden></div>
+
+      <div class="dlg-body">
+        <fieldset>
+          <legend>Profile</legend>
+          <div class="field full">
+            <label for="f_profileName">Profile Name <span class="req">required</span></label>
+            <input id="f_profileName" data-field="profileName" type="text" maxlength="80" placeholder="Example: Student Test 01" autocomplete="off">
+            <span class="err" id="err_profileName"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Identity</legend>
+          <div class="field full"><label for="f_fullName">Full Name</label><input id="f_fullName" data-field="fullName" type="text" autocomplete="off"><span class="err" id="err_fullName"></span></div>
+          <div class="field"><label for="f_firstName">First Name</label><input id="f_firstName" data-field="firstName" type="text" autocomplete="off"><span class="err" id="err_firstName"></span></div>
+          <div class="field"><label for="f_lastName">Last Name</label><input id="f_lastName" data-field="lastName" type="text" autocomplete="off"><span class="err" id="err_lastName"></span></div>
+          <div class="field"><label for="f_nic">NIC / National Identity Card Number</label><input id="f_nic" data-field="nic" type="text" autocomplete="off"><span class="err" id="err_nic"></span></div>
+          <div class="field"><label for="f_dob">Date of Birth</label><input id="f_dob" data-field="dob" type="date"><span class="err" id="err_dob"></span></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Account</legend>
+          <div class="field"><label for="f_username">Username</label><input id="f_username" data-field="username" type="text" autocomplete="off" spellcheck="false"><span class="err" id="err_username"></span></div>
+          <div class="field"><label for="f_email">Email Address</label><input id="f_email" data-field="email" type="email" autocomplete="off" spellcheck="false"><span class="err" id="err_email"></span></div>
+          <div class="field">
+            <label for="f_password">Password</label>
+            <div class="pw"><input id="f_password" data-field="password" type="password" autocomplete="new-password"><button class="btn small toggle" type="button" data-target="f_password" aria-pressed="false">Show</button></div>
+            <span class="err" id="err_password"></span>
+          </div>
+          <div class="field">
+            <label for="f_confirmPassword">Confirm Password</label>
+            <div class="pw"><input id="f_confirmPassword" data-field="confirmPassword" type="password" autocomplete="new-password"><button class="btn small toggle" type="button" data-target="f_confirmPassword" aria-pressed="false">Show</button></div>
+            <span class="err" id="err_confirmPassword"></span>
+            <span class="hint muted">Leave empty to reuse the password.</span>
+          </div>
+          <div class="field full">
+            <label for="f_role">User Role</label>
+            <input id="f_role" data-field="role" type="text" list="roleList" placeholder="Student, Admin, Teacher..." autocomplete="off">
+            <datalist id="roleList"><option value="Student"><option value="Teacher"><option value="Admin"><option value="Manager"><option value="User"></datalist>
+            <span class="err" id="err_role"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Contact and address</legend>
+          <div class="field"><label for="f_phone">Phone Number</label><input id="f_phone" data-field="phone" type="tel" autocomplete="off"><span class="err" id="err_phone"></span></div>
+          <div class="field"><label for="f_altPhone">Alternative Phone Number</label><input id="f_altPhone" data-field="altPhone" type="tel" autocomplete="off"><span class="err" id="err_altPhone"></span></div>
+          <div class="field full"><label for="f_address">Address</label><input id="f_address" data-field="address" type="text" autocomplete="off"><span class="err" id="err_address"></span></div>
+          <div class="field"><label for="f_city">City</label><input id="f_city" data-field="city" type="text" autocomplete="off"><span class="err" id="err_city"></span></div>
+          <div class="field"><label for="f_postalCode">Postal Code</label><input id="f_postalCode" data-field="postalCode" type="text" maxlength="12" autocomplete="off"><span class="err" id="err_postalCode"></span></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Custom fields</legend>
+          <p class="hint muted">For extra data a site asks for. "Match words" are optional, comma-separated words to look for in the page field's name, label or placeholder (defaults to the field name).</p>
+          <div id="customList" class="custom-list"></div>
+          <button id="addCustomBtn" class="btn small" type="button">Add custom field</button>
+        </fieldset>
+      </div>
+
+      <footer class="dlg-foot">
+        <button id="clearBtn" class="btn" type="button">Clear form</button>
+        <span class="spacer"></span>
+        <button id="cancelBtn" class="btn" type="button">Cancel</button>
+        <button id="saveBtn" class="btn primary" type="submit">Save profile</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="confirmDlg" aria-labelledby="confirmTitle" class="small-dlg">
+    <h2 id="confirmTitle">Are you sure?</h2>
+    <p id="confirmText" class="muted"></p>
+    <div class="dlg-foot">
+      <span class="spacer"></span>
+      <button id="confirmNo" class="btn" type="button">Cancel</button>
+      <button id="confirmYes" class="btn danger" type="button">Delete</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="storage.js"></script>
+  <script src="accounts.js"></script>
+</body>
+</html>

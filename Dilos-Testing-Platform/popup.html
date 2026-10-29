@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dilo's Testing Platform</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main id="mainView" class="view">
+    <header class="bar">
+      <img src="icons/icon48.png" alt="" width="30" height="30" class="logo">
+      <h1>Dilo's Testing Platform</h1>
+      <button id="settingsBtn" class="icon-btn" type="button" aria-label="Settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </header>
+
+    <label class="visually-hidden" for="search">Search profiles</label>
+    <input id="search" type="search" placeholder="Search name, username, NIC, email, phone" autocomplete="off" spellcheck="false">
+
+    <div class="list-head">
+      <span id="listLabel" class="muted">Recent profiles</span>
+      <span id="countLabel" class="muted"></span>
+    </div>
+    <ul id="list" class="list" role="listbox" aria-label="Profiles"></ul>
+    <div id="empty" class="empty" hidden>
+      <p id="emptyText">No profiles yet.</p>
+      <button id="emptyAddBtn" class="btn small" type="button">Add your first profile</button>
+    </div>
+
+    <div id="siteBox" class="site">
+      <span id="siteText" class="muted"></span>
+      <button id="authBtn" class="btn small" type="button" hidden>Authorize this site</button>
+    </div>
+
+    <div class="options">
+      <label><input id="optPassword" type="checkbox" checked> Fill password fields</label>
+      <label><input id="optOverwrite" type="checkbox"> Replace values already on the page</label>
+    </div>
+
+    <div class="actions">
+      <button id="addBtn" class="btn" type="button">Add New User</button>
+      <button id="manageBtn" class="btn" type="button">Manage Accounts</button>
+      <button id="fillBtn" class="btn primary wide" type="button" disabled>Fill Form</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <section id="settingsView" class="view" hidden>
+    <header class="bar">
+      <button id="backBtn" class="icon-btn" type="button" aria-label="Back" title="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1>Settings</h1>
+    </header>
+
+    <label class="row-toggle"><input id="setAutofill" type="checkbox"> <span>Enable autofill</span></label>
+    <label class="row-toggle"><input id="setSuggest" type="checkbox"> <span>Suggest profiles while typing on authorized sites</span></label>
+
+    <div class="field">
+      <label for="setTheme">Theme</label>
+      <select id="setTheme">
+        <option value="dark">Dark (default)</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="domainInput">Authorized testing domains</label>
+      <div class="inline">
+        <input id="domainInput" type="text" placeholder="staging.example.com or *.example.com" autocomplete="off" spellcheck="false">
+        <button id="domainAddBtn" class="btn" type="button">Add</button>
+      </div>
+      <ul id="domainList" class="domains"></ul>
+      <p class="hint muted">Forms are filled only on these sites. <code>*.example.com</code> also covers subdomains.</p>
+    </div>
+
+    <div class="actions two">
+      <button id="clearRecentBtn" class="btn" type="button">Clear recent history</button>
+      <button id="resetBtn" class="btn danger" type="button">Reset preferences</button>
+    </div>
+
+    <div id="confirmBox" class="confirm" hidden>
+      <p id="confirmText"></p>
+      <div class="inline">
+        <button id="confirmYes" class="btn danger small" type="button">Yes</button>
+        <button id="confirmNo" class="btn small" type="button">Cancel</button>
+      </div>
+    </div>
+    <p id="settingsStatus" class="status" role="status" aria-live="polite"></p>
+    <p class="hint muted">Profiles are stored only in this browser. Chrome does not encrypt local storage automatically, so use test data only.</p>
+  </section>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
